@@ -11,35 +11,12 @@
 <h1>Welcome to website!</h1>
 
 <div style="border: blue solid thin; border-radius: 4px; padding: 10px">
-    <form action="/home" method="get">
-        <div>
-        <label>
-            Type a username to search
-            <input type="text" name="name">
-        </label>
-        </div>
-
-        <div>
-        <button type="submit">Submit</button>
+    <form action="/home">
+       <div>
+        <button type="submit">Login</button>
         </div>
     </form>
 </div>
 
-<div style="border: blue solid thin; border-radius: 4px; padding: 10px">
-    <form action="/add" method="post">
-        <div>
-        <label>
-            Type a username to add
-            <input type="text" name="name">
-        </label>
-        </div>
-        <div>
-        <button type="submit">Submit</button>
-        </div>
-    </form>
-    <?php
-        echo $msg ?? '';
-    ?>
-</div>
 </body>
 </html>

@@ -11,11 +11,9 @@
 <h1>This is the home page</h1>
 <p>
     <?php
-
-    use Lib\database\User;
-
-    $user = $user ?? [];
-    echo 'User #' . $user['id'] . ', has name - ' . $user['name'] . '<br>';
+    /** @var User $user */
+    $user ??= [];
+    echo 'Welcome' . $user->name . '<br>';
     ?>
 </p>
 <a href="/">Back</a>
