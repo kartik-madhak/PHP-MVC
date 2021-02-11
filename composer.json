@@ -1,0 +1,11 @@
+{
+    "require": {
+        "vlucas/phpdotenv": "^5.3",
+      "ext-mysqli": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "Lib\\": "lib/"
+        }
+    }
+}
