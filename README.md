@@ -18,6 +18,7 @@ How to use
 
 - Clone this repo into your workspace and add your models into `models` directory, views in `views` and controllers in `controllers` directory.
 - There are some examples already inside the `models`, `views`, and `controllers` directory on how to use them.
+- Point a virtual host in the directory where you have cloned the project and open it to run.
 
 Features
 ----------
