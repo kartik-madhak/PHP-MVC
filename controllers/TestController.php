@@ -20,8 +20,23 @@ $router->get(
         $inputsFromForms = $request->inputs;
 
         if (isset($inputsFromForms['GET'])) {
-            include ('views/home.php');
+            include('views/home.php');
         }
+    }
+);
+
+$router->post(
+    '/home',
+    function (Request $request, array $routeValues) {
+        $msg = 'POST REQUEST SUCCESSFUL';
+        include ('views/index.php');
+    }
+);
+
+$router->get(
+    '/testingAjax',
+    function (Request $request, array $routeValues) {
+        echo json_encode(['data' => 'IT SEEMS TO BE WORKING FINE!']);
     }
 );
 
