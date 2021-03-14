@@ -1,5 +1,5 @@
 # php.mvc.basic
-Very basic MVC framework for PHP (version 7), MYSQL. 
+Very basic MVC framework for PHP (version 7.4), MYSQL. 
 
 ---
 

@@ -11,12 +11,16 @@ function includeFiles($directoryPath)
     $files = glob($directoryPath . '/*.php');
     foreach ($files as $file) {
         if (strpos($file, '.php') != -1) {
-            @require_once($file);
+            require_once($file);
         }
     }
 
 }
+?>
 
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+<?php
 SingletonServiceCreator::add(Router::class, new Router);
 
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);

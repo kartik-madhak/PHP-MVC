@@ -7,23 +7,28 @@ use Lib\services\SingletonServiceCreator;
 /** @var Router $router */
 $router = SingletonServiceCreator::get(Router::class);
 
-$router->add(
+$router->get(
     '/',
     function (Request $request, array $routeValues) {
         include('views/index.php');
     }
 );
 
-$router->add(
+$router->get(
     '/home',
     function (Request $request, array $routeValues) {
         $inputsFromForms = $request->inputs;
 
         if (isset($inputsFromForms['GET'])) {
-            $user = new User();
-            $user->name = 'user123';
             include ('views/home.php');
         }
+    }
+);
+
+$router->get(
+    '/migration',
+    function (Request $request, array $routeValues) {
+        include('views/migrationHandler.php');
     }
 );
 

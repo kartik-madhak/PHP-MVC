@@ -3,54 +3,6 @@
 namespace Lib\router;
 
 use Closure;
-use JetBrains\PhpStorm\ArrayShape;
-
-
-class Route
-{
-    private array $components;
-    private string $url;
-    private Closure $callback;
-
-    private function splitter($url): array
-    {
-        $url = trim($url, '/');
-        if ($url == '') {
-            return [];
-        }
-        return explode('/', $url);
-    }
-
-    public function __construct(string $url, Closure $callback)
-    {
-        $this->components = $this->splitter($url);
-        $this->url = $url;
-        $this->callback = $callback;
-    }
-
-    public
-    function matches($url) {
-        $pages = $this->splitter($url);
-        $pagesLength = count($pages);
-        $values = [];
-        if ($pagesLength != count($this->components)) {
-            return false;
-        }
-        for ($i = 0; $i < $pagesLength; ++$i) {
-            if (strlen($this->components[$i]) != 0) {
-                if ($this->components[$i][0] != '{') {
-                    if ($this->components[$i] != $pages[$i]) {
-                        return false;
-                    }
-                } else {
-                    $values[trim($this->components[$i], '{}')] = $pages[$i];
-                }
-            }
-        }
-        $callback = $this->callback;
-        return compact('values', 'callback');
-    }
-}
 
 class Router
 {
@@ -63,14 +15,24 @@ class Router
     {
     }
 
-    public function add(string $url, Closure $callback)
+    public function add(string $url, string $method, Closure $callback)
     {
-        array_push($this->routes, new Route($url, $callback));
+        array_push($this->routes, new Route($url, $method, $callback));
     }
 
-    public function hasRoute($url){
+    public function get(string $url, Closure $callback)
+    {
+        $this->add($url, 'GET', $callback);
+    }
+
+    public function post(string $url, Closure $callback)
+    {
+        $this->add($url, 'POST', $callback);
+    }
+
+    public function hasRoute($url, $method){
         foreach ($this->routes as $route) {
-            $hasURL = $route->matches($url);
+            $hasURL = $route->matches($url, $method);
             if ($hasURL != false) {
                 return $hasURL;
             }
@@ -81,7 +43,8 @@ class Router
     public function run()
     {
         $url = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
-        $has = $this->hasRoute($url);
+        $method = $_SERVER['REQUEST_METHOD'];
+        $has = $this->hasRoute($url, $method);
         if ($has) {
             $request = new Request(['GET' => $_GET, 'POST' => $_POST]);
 //            echo $request->toString();

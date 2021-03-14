@@ -72,7 +72,7 @@ class FluentDB
         return $this->conn->execPreparedQuery($this->query, $this->args);
     }
 
-    private function deduceTypes(array $arr)
+    private function deduceTypes(array $arr): array
     {
         $cols = [];
         $types = [];
@@ -101,6 +101,9 @@ class FluentDB
 
     public function createTable(array $arr)
     {
+        if($this->conn->exec('SELECT * FROM ' . $this->dbname) == true)
+            return false;
+
         $res = $this->deduceTypes($arr);
         $cols = $res['cols'];
         $types = $res['types'];
@@ -112,6 +115,7 @@ class FluentDB
         }
         $this->query = rtrim($this->query, ',') . ')';
         $this->get();
+        return true;
     }
 
     public function update(array $array)

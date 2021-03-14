@@ -8,12 +8,13 @@
     <title>Document</title>
 </head>
 <body>
-<h1>Welcome to website!</h1>
 
-<div style="border: blue solid thin; border-radius: 4px; padding: 10px">
+<div class="container">
+    <div class="display-4 text-center">Welcome to website!</div>
+
     <form action="/home">
-       <div>
-        <button type="submit">Login</button>
+       <div class="text-center">
+        <button class="btn btn-outline-primary" type="submit">Login</button>
         </div>
     </form>
 </div>
