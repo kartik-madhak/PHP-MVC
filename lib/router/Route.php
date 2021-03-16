@@ -12,11 +12,14 @@ class Route
     // The original url pointed by the route
     private string $url;
 
-    // The function to call for redirecting
-    private Closure $callback;
-
     // 'GET', 'SET', 'POST' etc...
     private string $method;
+
+    // Middlewares to call before executing callback function
+    /**
+     * @var $actions Closure[]
+     */
+    private array $actions;
 
     private function splitter($url): array
     {
@@ -27,12 +30,12 @@ class Route
         return explode('/', $url);
     }
 
-    public function __construct(string $url, string $method,Closure $callback)
+    public function __construct(string $url, string $method, array $callbacks)
     {
         $this->components = $this->splitter($url);
         $this->url = $url;
         $this->method = $method;
-        $this->callback = $callback;
+        $this->actions = $callbacks;
     }
 
     public
@@ -58,7 +61,7 @@ class Route
                 }
             }
         }
-        $callback = $this->callback;
-        return compact('values', 'callback');
+        $actions = $this->actions;
+        return compact('values', 'actions');
     }
 }

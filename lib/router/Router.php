@@ -15,19 +15,19 @@ class Router
     {
     }
 
-    public function add(string $url, string $method, Closure $callback)
+    public function add(string $url, string $method, array $callbacks)
     {
-        array_push($this->routes, new Route($url, $method, $callback));
+        array_push($this->routes, new Route($url, $method, $callbacks));
     }
 
-    public function get(string $url, Closure $callback)
+    public function get(string $url, array $callbacks)
     {
-        $this->add($url, 'GET', $callback);
+        $this->add($url, 'GET', $callbacks);
     }
 
-    public function post(string $url, Closure $callback)
+    public function post(string $url, array $callbacks)
     {
-        $this->add($url, 'POST', $callback);
+        $this->add($url, 'POST', $callbacks);
     }
 
     public function hasRoute($url, $method){
@@ -48,10 +48,16 @@ class Router
         if ($has) {
             $request = new Request(['GET' => $_GET, 'POST' => $_POST]);
 //            echo $request->toString();
-            $has['callback'](
-                $request,
-                $has['values']
-            );
+            $count = count($has['actions']);
+            $i = 0;
+            while($i < $count)
+            {
+                $actions = $has['actions'][$i];
+                $ret = $actions($request, $has['values']);
+                if ($ret === false)
+                    break;
+                $i++;
+            }
         } else {
             $error = 'Are you sure you visited the right page?';
             http_response_code(404);
