@@ -1,6 +1,6 @@
 # PHP MVC
 
-Very minimal MVC framework for PHP (version 7.4 and above) with MySQL and APACHE support.
+Very minimal MVC framework for PHP (version 7.4 and above) with MySQL and APACHE server support.
 
 ## NOTE
 
