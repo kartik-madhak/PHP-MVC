@@ -2,8 +2,6 @@
 
 namespace Lib\router;
 
-use Closure;
-
 class Router
 {
     /**
@@ -11,14 +9,14 @@ class Router
      */
     private array $routes = [];
 
-    public function remove(string $url, string $method = 'GET')
-    {
-        foreach ($this->routes as $k => $route) {
-            if ($route->getUrl() === $url && $route->getMethod() === $method) {
-                unset($this->routes[$k]);
-            }
-        }
-    }
+//    public function remove(string $url, string $method = 'GET')
+//    {
+//        foreach ($this->routes as $k => $route) {
+//            if ($route->getUrl() === $url && $route->getMethod() === $method) {
+//                unset($this->routes[$k]);
+//            }
+//        }
+//    }
 
     public function allUrls(): array
     {

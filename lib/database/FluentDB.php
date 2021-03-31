@@ -109,7 +109,7 @@ class FluentDB
         return $this->conn->exec('DROP TABLE ' . $this->dbname);
     }
 
-    public function createTable(array $arr)
+    public function createTable(array $arr): bool
     {
         if($this->conn->exec('SELECT * FROM ' . $this->dbname) == true)
             return false;

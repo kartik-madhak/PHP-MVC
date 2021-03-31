@@ -4,6 +4,9 @@ namespace Lib\database;
 
 
 
+use ReflectionException;
+use ReflectionProperty;
+
 abstract class Model
 {
     public int $id;
@@ -20,14 +23,19 @@ abstract class Model
         return new FluentDB(get_called_class());
     }
 
-    public static function createTable()
+    public static function createTable(): bool
     {
         $fluentDB = new FluentDB(get_called_class());
         $arr = get_class_vars(get_called_class());
         foreach ($arr as $k => $v) {
-            $arr[$k] = (string)(new \ReflectionProperty(get_called_class(), $k))->getType();
+            try {
+                $arr[$k] = (string)(new ReflectionProperty(get_called_class(), $k))->getType();
+            } catch (ReflectionException $e) {
+                echo 'AN ERROR OCCURRED';
+                var_dump($e);
+            }
         }
-        $fluentDB->createTable($arr);
+        return $fluentDB->createTable($arr);
     }
 
     public static function drop()
@@ -36,7 +44,7 @@ abstract class Model
         return $fluentDB->dropTable();
     }
 
-    public function create()
+    public function create(): void
     {
         $fluentDB = new FluentDB(get_called_class());
         $array = get_object_vars($this);
@@ -44,7 +52,7 @@ abstract class Model
         $fluentDB->insert($array);
     }
 
-    public function save()
+    public function save(): void
     {
         $fluentDB = new FluentDB(get_called_class());
         $array = get_object_vars($this);
