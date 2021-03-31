@@ -1,6 +1,6 @@
 # PHP MVC
 
-Very minimal MVC framework for PHP (version 7.4 and above) with MySQL and APACHE server support.
+Very minimal MVC framework for PHP (version 7.4 and above) with MySQL support.
 
 ## NOTE
 
@@ -11,7 +11,7 @@ Very minimal MVC framework for PHP (version 7.4 and above) with MySQL and APACHE
 
 ## How to use
 
-- Clone this repo into your workspace, run `composer install` inside the cloned directory.
+- Clone this repo into your workspace, run `composer install` inside the cloned directory.
 - Point a virtual host in the directory where you have cloned the project and open it in the browser to run.
 
 ## About
@@ -46,7 +46,7 @@ Very minimal MVC framework for PHP (version 7.4 and above) with MySQL and APACHE
   
   class User extends Model{
       public string $name;
-      public int $roll_no;
+      public int roll_no;
       public string $password;
       public string $email;
   }
@@ -246,3 +246,23 @@ Very minimal MVC framework for PHP (version 7.4 and above) with MySQL and APACHE
 - Very minimal in size.
 - Very easy to use.
 - Good for building Single Page Applications, API endpoints, and dynamic website.
+
+## Future plans
+
+- Extend the functionality of FluentDB to support more queries. Also add more operators in conditional queries.
+
+- Replace mysqli with PDO.
+
+- Add support for multiple data types. Possibly, also change the way Models have to be declared (since type hinting is required right now).
+
+- Add more functionality to `Request` and `Router`. Adding routes at runtime?
+
+- Improve the namespace's naming convention.
+
+- Support more routes like 'PATCH', 'DELETE', etc. (Possibly add functionality to support custom routes).
+
+- Add support for Nginx server (maybe).
+
+- Add PHP scripts to automate migration, generation of model, and controllers (maybe).
+
+    
