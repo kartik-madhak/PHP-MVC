@@ -38,6 +38,7 @@
             },
             error: function (response) {
                 alert('AJAX FAILED!');
+                document.getElementById("result").innerHTML = 'AJAX FAILED, SEE CONSOLE';
                 console.log(response);
             }
         });

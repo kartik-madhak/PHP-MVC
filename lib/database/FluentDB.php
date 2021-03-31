@@ -72,31 +72,41 @@ class FluentDB
         return $this->conn->execPreparedQuery($this->query, $this->args);
     }
 
+    public function getFirstOrFalse()
+    {
+        $res = $this->get();
+        return $res == false ? false : $res[0];
+    }
+
     private function deduceTypes(array $arr): array
     {
         $cols = [];
-        $types = [];
+        $cols['id'] = 'INTEGER KEY AUTO_INCREMENT';
         foreach ($arr as $k => $v) {
-            array_push($cols, $k);
             switch ($v) {
                 case 'int':
-                    if ($k == 'id') {
-                        array_push($types, 'INTEGER KEY AUTO_INCREMENT');
-                    } else {
-                        array_push($types, 'INTEGER');
+                    if ($k != 'id') {
+                        $cols[$k] = 'INTEGER';
                     }
                     break;
                 case 'string':
-                    if ($k == 'created_at' || $k == 'updated_at') {
-//                        var_dump($k, $v);
-                        array_push($types, 'DATETIME');
-                    } else {
-                        array_push($types, 'VARCHAR(200)');
+                    if ($k != 'created_at' && $k != 'updated_at') {
+                        $cols[$k] = 'VARCHAR(200)';
                     }
+                    break;
+                case 'float':
+                    $cols[$k] = 'FLOAT';
                     break;
             }
         }
-        return compact('cols', 'types');
+        $cols['created_at'] = 'DATETIME';
+        $cols['updated_at'] = 'DATETIME';
+        return $cols;
+    }
+
+    public function dropTable()
+    {
+        return $this->conn->exec('DROP TABLE ' . $this->dbname);
     }
 
     public function createTable(array $arr)
@@ -104,14 +114,12 @@ class FluentDB
         if($this->conn->exec('SELECT * FROM ' . $this->dbname) == true)
             return false;
 
-        $res = $this->deduceTypes($arr);
-        $cols = $res['cols'];
-        $types = $res['types'];
+        $cols = $this->deduceTypes($arr);
 
 //        print_r($arr);
         $this->query = 'CREATE TABLE ' . $this->dbname . '(';
-        for ($i = 0; $i < count($cols); ++$i) {
-            $this->query .= $cols[$i] . ' ' . $types[$i] . ',';
+        foreach ($cols as $k => $v) {
+            $this->query .= $k . ' ' . $v . ',';
         }
         $this->query = rtrim($this->query, ',') . ')';
         $this->get();

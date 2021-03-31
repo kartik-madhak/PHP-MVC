@@ -1,4 +1,5 @@
 <?php
+
 namespace Lib\services;
 
 
@@ -7,17 +8,18 @@ class SingletonServiceCreator
     /**
      * @var array object
      */
-    private static array $instances = [];
+    public static array $instances = [];
 
-    public static function add(string $className, object $instance)
+    public static function add(string $className)
     {
-        SingletonServiceCreator::$instances[$className] = $instance;
+        if (!isset(SingletonServiceCreator::$instances[$className])) {
+            SingletonServiceCreator::$instances[$className] = new $className();
+        }
     }
 
     public static function get(string $className)
     {
-        if (array_key_exists($className, SingletonServiceCreator::$instances))
-        {
+        if (array_key_exists($className, SingletonServiceCreator::$instances)) {
             return SingletonServiceCreator::$instances[$className];
         }
         return null;

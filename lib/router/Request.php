@@ -8,10 +8,16 @@ class Request
 
     public function __construct(array $inputs)
     {
+        $temp = [];
         foreach ($inputs['GET'] as $k => $v)
-            $inputs[$k] = htmlspecialchars($v);
+            $temp[$k] = htmlspecialchars($v);
+        $this->inputs['GET'] = $temp;
+
+        $temp = [];
         foreach ($inputs['POST'] as $k => $v)
-            $inputs[$k] = htmlspecialchars($v);
-        $this->inputs = $inputs;
+            $temp[$k] = htmlspecialchars($v);
+        $this->inputs['POST'] = $temp;
+
+        $this->inputs['FILES'] = $inputs['FILES'];
     }
 }

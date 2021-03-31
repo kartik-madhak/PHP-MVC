@@ -19,7 +19,7 @@ class MySQLAccess
 
     public function exec(string $query)
     {
-        return mysqli_query($this->conn, $query);
+        return $this->conn->query($query);
     }
 
     public function execPreparedQuery(string $query, array $args)

@@ -64,4 +64,20 @@ class Route
         $actions = $this->actions;
         return compact('values', 'actions');
     }
+
+    /**
+     * @return string
+     */
+    public function getUrl(): string
+    {
+        return $this->url;
+    }
+
+    /**
+     * @return string
+     */
+    public function getMethod(): string
+    {
+        return $this->method;
+    }
 }

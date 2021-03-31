@@ -15,9 +15,8 @@ function includeFiles($directoryPath)
         }
     }
 }
-?>
-<?php
-SingletonServiceCreator::add(Router::class, new Router);
+SingletonServiceCreator::add(Router::class);
+//dd(SingletonServiceCreator::$instances);
 
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
 $dotenv->load();
