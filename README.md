@@ -1,6 +1,6 @@
 # PHP MVC
 
-Very minimal MVC framework for PHP (version 7.4 and above) with MySQL support.
+Very minimal MVC framework for PHP (version 7.4 and above) with support for MySQL and APACHE server.
 
 ## NOTE
 
@@ -46,7 +46,7 @@ Very minimal MVC framework for PHP (version 7.4 and above) with MySQL support.
   
   class User extends Model{
       public string $name;
-      public int roll_no;
+      public int $roll_no;
       public string $password;
       public string $email;
   }
