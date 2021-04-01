@@ -23,7 +23,7 @@ abstract class Model
         return new FluentDB(get_called_class());
     }
 
-    public static function createTable(): bool
+    public static function createTable()
     {
         $fluentDB = new FluentDB(get_called_class());
         $arr = get_class_vars(get_called_class());
@@ -31,11 +31,9 @@ abstract class Model
             try {
                 $arr[$k] = (string)(new ReflectionProperty(get_called_class(), $k))->getType();
             } catch (ReflectionException $e) {
-                echo 'AN ERROR OCCURRED';
-                var_dump($e);
             }
         }
-        return $fluentDB->createTable($arr);
+        $fluentDB->createTable($arr);
     }
 
     public static function drop()
@@ -44,7 +42,7 @@ abstract class Model
         return $fluentDB->dropTable();
     }
 
-    public function create(): void
+    public function create()
     {
         $fluentDB = new FluentDB(get_called_class());
         $array = get_object_vars($this);
@@ -52,11 +50,17 @@ abstract class Model
         $fluentDB->insert($array);
     }
 
-    public function save(): void
+    public function save()
     {
         $fluentDB = new FluentDB(get_called_class());
         $array = get_object_vars($this);
         $array['updated_at'] = date('Y-m-d H:i:s', time());
-        $fluentDB->update($array);
+        $fluentDB->update($array)->where('id', $this->id)->get();
+    }
+
+    public function delete()
+    {
+        $fluentDB = new FluentDB(get_called_class());
+        $fluentDB->delete()->where('id', $this->id)->get();
     }
 }

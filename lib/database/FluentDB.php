@@ -44,6 +44,19 @@ class FluentDB
         return $this;
     }
 
+    public function whereIn(string $col, array $values): self
+    {
+        if (!$this->whereAdded) {
+            $this->query .= ' WHERE ';
+            $this->whereAdded = true;
+        } else {
+            $this->query .= ' AND ';
+        }
+        $this->query .= $col . ' IN (' . rtrim(str_repeat('?,', count($values)), ',') . ')';
+        array_push($this->args, ...$values);
+        return $this;
+    }
+
     public function orWhere(string $col, string $value): self
     {
         if (!$this->whereAdded) {
@@ -69,6 +82,7 @@ class FluentDB
     public function get()
     {
 //        var_dump($this->query, $this->args);
+//        dump($this);
         return $this->conn->execPreparedQuery($this->query, $this->args);
     }
 
@@ -109,7 +123,7 @@ class FluentDB
         return $this->conn->exec('DROP TABLE ' . $this->dbname);
     }
 
-    public function createTable(array $arr): bool
+    public function createTable(array $arr)
     {
         if($this->conn->exec('SELECT * FROM ' . $this->dbname) == true)
             return false;
@@ -128,16 +142,22 @@ class FluentDB
 
     public function update(array $array)
     {
-//        var_dump($array);
-        $id = $array['id'];
+////        var_dump($array);
+//        $id = $array['id'];
         unset($array['id']);
         $this->query = 'UPDATE ' . $this->dbname . ' SET ';
         foreach ($array as $k => $v) {
             $this->query .= $k . '= ?,';
             array_push($this->args, $v);
         }
-        $this->query = rtrim($this->query, ',') . ' WHERE id = ' . $id;
-        $this->get();
+        $this->query = rtrim($this->query, ',');
+        return $this;
+    }
+
+    public function delete(): self
+    {
+        $this->query = 'DELETE FROM ' . $this->dbname . ' ';
+        return $this;
     }
 
 }

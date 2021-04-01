@@ -25,7 +25,7 @@ Very minimal MVC framework for PHP (version 7.4 and above) with support for MySQ
 
 - All the models are required to extend the abstract class `Model` which is declared in the `Lib\database\Model` namespace. This provides the models access to `FluentDB` ORM which makes database operations easy.
 
-- The name of the models must be singular and the corresponding table's name must be the 'model name' with 's' at the end. See `createTable()` method below if you want to automatically generate the table.
+- The name of the models must be singular, and the corresponding table's name must be the 'model name' with 's' at the end. See `createTable()` method below if you want to automatically generate the table.
 
 - The models do not need to declare `id`, `created_at`, and `updated_at` fields as they are automatically included in the `Model` parent class.
 
@@ -33,7 +33,7 @@ Very minimal MVC framework for PHP (version 7.4 and above) with support for MySQ
 
 - There are several methods in the Model parent class that can be accessed by the child class that aids in database operations: -
 
-  -  `public static function query(): FluentDB` returns a `FluentDB` object for that model which helps conducting various database operations.
+  -  `public static function query(): FluentDB` returns a `FluentDB` object for that model which helps conduct various database operations.
   -  `public static function createTable(): bool` automatically creates a table for that model in your MySQL database based upon the type hints of the fields as declared inside the model. The created table has a name of 'model name' + 's'.
   -  `public static function drop()` drops the table from the MySQL database.
   -  `public function create(): void` creates a new entry in the model's table from an 'instance' of the model. No need to specify `id` (as it is autoincrement), `created_at`, and `updated_at` (since they are automatically filled).
@@ -103,7 +103,7 @@ Very minimal MVC framework for PHP (version 7.4 and above) with support for MySQ
   );
   ```
 
-  It is important that you do not name a variable route similar to a static route. For example, a route - '/users/home' would conflict with a route - '/users/{userId}'. This would cause unpredictable behavior. Also note that a get and a post route can have the same name since the request method is different.
+  It is important that you do not name a variable route similar to a static route. For example, a route - '/users/home' would conflict with a route - '/users/{userId}'. This would cause unpredictable behavior. Also note that a get, and a post route can have the same name since the request method is different.
 
 - This is an example of a typical route that you would declare in a controller: -
 
@@ -179,8 +179,7 @@ Very minimal MVC framework for PHP (version 7.4 and above) with support for MySQ
 
 - An example of a view file that makes use of the '/home' route declared above would be: -
 
-  ```php
-  <!doctype html>
+  ```php+html
   <html lang="en">
   <?php include('layout/head.php') ?> // For including common content across multiple view files, you put them in different layout files.
   <body>
@@ -200,7 +199,7 @@ Very minimal MVC framework for PHP (version 7.4 and above) with support for MySQ
 
 - This framework communicates with the database using a small one-file class called FluentDB, which acts as a wrapper that generates, executes, and process SQL queries. I have plans to extend the functionality of the framework using PDO, but that's a thought for future...
 
-- You wouldn't directly declare a FluentDB object in your app, but it is accessible through Model's subclasses using the `query` method. It is used to execute query on a table specified by a certain model. For example: -
+- You wouldn't directly declare a FluentDB object in your app, but it is accessible through Model's subclasses using the `query` method. It is used to execute a query on a table specified by a certain model. For example: -
 
   ```php
   $users = User::query()->select(['id', 'name'])->get();
@@ -216,7 +215,7 @@ Very minimal MVC framework for PHP (version 7.4 and above) with support for MySQ
 
 - Apart from executing 'SELECT' queries, it can also 'INSERT' and 'UPDATE' entries in a table. However, the insertion and deletion should be ideally handled by the `create()` and `save()` methods in the model class to avoid errors and to make it more intuitive.
 
-- The sub query can also be formed using `where()` and `orWhere()` methods, which apply condition to the query using the where operator. Currently only supports '=' operator. For example: -
+- The sub query can also be formed using `where()` and `orWhere()` methods, which apply condition to the query using the where operator. Currently, only supports '=' operator. For example: -
 
   ```php
   $myUser = User::query()->select()->where('id', 1)->get();
@@ -243,7 +242,7 @@ Very minimal MVC framework for PHP (version 7.4 and above) with support for MySQ
 - Router that supports variables routes.
 - Models extend abstract class `Lib\database\Model` which contains an ORM for MYSQL (called FluentDB) for very easy database operations.
 - Dynamic views using PHP.
-- Very minimal in size.
+- Minimal in size.
 - Very easy to use.
 - Good for building Single Page Applications, API endpoints, and dynamic website.
 
